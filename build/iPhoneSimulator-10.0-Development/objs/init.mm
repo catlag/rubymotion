@@ -14,7 +14,8 @@ extern "C" {
     void rb_rb2oc_exc_handler(void);
     void rb_exit(int);
     void ruby_init_device_repl(void);
-void MREP_C905FD3CE2784FAAAAFE7D29259F3DF0(void *, void *);
+void MREP_912E5298BE43437DBFAA08888F671120(void *, void *);
+void MREP_5987A37FA7B949E29B3619CE8626B400(void *, void *);
 int rm_repl_port = 53363;
 }
 
@@ -37,7 +38,8 @@ RubyMotionInit(int argc, char **argv)
 ruby_init_device_repl();
 rb_define_global_const("RUBYMOTION_ENV", @"development");
 rb_define_global_const("RUBYMOTION_VERSION", @"4.14");
-MREP_C905FD3CE2784FAAAAFE7D29259F3DF0(self, 0);
+MREP_912E5298BE43437DBFAA08888F671120(self, 0);
+MREP_5987A37FA7B949E29B3619CE8626B400(self, 0);
 #if !__LP64__
 	}
 	catch (...) {
