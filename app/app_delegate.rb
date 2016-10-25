@@ -44,23 +44,52 @@ class AppDelegate
 
 
 
-    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.applicationFrame)
     controller = TapController.alloc.initWithNibName(nil, bundle: nil)
     nav_controller = UINavigationController.alloc.initWithRootViewController(controller)
+    alphabet_controller = AlphabetController.alloc.initWithNibName(nil, bundle: nil)
 
-    other_controller = UIViewController.alloc.initWithNibName(nil, bundle: nil)
-    other_controller.title = "Other"
-    other_controller.view.backgroundColor = UIColor.purpleColor
+    # other_controller = UIViewController.alloc.initWithNibName(nil, bundle: nil)
+    # other_controller.title = "Other"
+    # other_controller.view.backgroundColor = UIColor.purpleColor
 
 
     tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle:nil)
-    tab_controller.viewControllers = [nav_controller]
+    tab_controller.viewControllers = [alphabet_controller, nav_controller]
     #set tab controller's viewControllers to an array with navigation contorller 
     @window.rootViewController = tab_controller
     
     @window.makeKeyAndVisible
 
+    @points = [[0,0],[50,0],[0,50],[50,50]]
+    @current_index = 0 
+
+    @view = UIView.alloc.initWithFrame [@points[@current_index], [100,100]]#shorthand for CGRectMake
+    #first sub-array represents the origin and second the size 
+    @view.backgroundColor = UIColor.blueColor
+    @window.addSubview(@view)
+
+    animate_to_next_point
+
 
     true
   end
+
+  def animate_to_next_point
+    @current_index += 1
+
+    #keep current_index in the range [0,3]
+    @current_index = @current_index % @points.count 
+
+    UIView.animateWithDuration(2, 
+      #duration sets how long the animations will last, in seconds.
+      animations:lambda {
+      @view.frame = [@points[@current_index], [100,100]]
+      }, 
+      completion:lambda{ |finished|
+        #must accept an argument in this lambda; it will be a boolean value which tells you if the animations really did finish. 
+        self.animate_to_next_point
+      }
+    )
+  end 
 end
